@@ -8,14 +8,14 @@ import           Graphics.Gloss.Interface.IO.Simulate
 import           System.Random                        (randomIO)
 
 cellRadius :: Float
-cellRadius = 25.0
+cellRadius = 10.0
 
 lineThickness :: Float
-lineThickness = 1.5
+lineThickness = 1.0
 
 cols :: Int
 rows :: Int
-(cols, rows) = (28, 18)
+(cols, rows) = (30, 35)
 
 data Pos = Pos Float Float deriving (Show, Eq)
 
@@ -40,9 +40,9 @@ data Model
 main :: IO ()
 main =
   simulateIO
-    (FullScreen (1366, 768)) -- (InWindow "HexaMaze" (600, 600) (200, 50))
+    (InWindow "HexaMaze" (600, 600) (200, 50)) -- (FullScreen (1366, 768))
     (makeColor 0.322 0.318 0.455 1.0)
-    60
+    30
     initialModel
     view
     update
@@ -199,7 +199,7 @@ update _ _ model@Model{..} = do
   case next of
     Nothing     ->
       return $ case stack of
-        [] -> initialModel -- set to "model" to keep the generated maze
+        [] -> model -- initialModel
         _  -> model { current = head stack
                     , stack   = tail stack
                     }
