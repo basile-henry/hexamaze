@@ -8,14 +8,14 @@ import           Graphics.Gloss.Interface.IO.Simulate
 import           System.Random                        (randomIO)
 
 cellRadius :: Float
-cellRadius = 10.0
+cellRadius = 45.0
 
 lineThickness :: Float
-lineThickness = 1.0
+lineThickness = 2.0
 
 cols :: Int
 rows :: Int
-(cols, rows) = (30, 35)
+(cols, rows) = (16, 10)
 
 data Pos = Pos Float Float deriving (Show, Eq)
 
@@ -40,9 +40,10 @@ data Model
 main :: IO ()
 main =
   simulateIO
-    (InWindow "HexaMaze" (600, 600) (200, 50)) -- (FullScreen (1366, 768))
+    -- (InWindow "HexaMaze" (1280, 720) (50, 0))
+    (FullScreen (1366, 768))
     (makeColor 0.322 0.318 0.455 1.0)
-    30
+    8
     initialModel
     view
     update
@@ -139,7 +140,10 @@ view Model{..} = return $
           (if (i, j) == current
             then makeColor 0.737 0.906 0.518 1.0
             else if visited cell
-              then makeColor 0.365 0.827 0.62 1.0
+              then
+                if (i, j) `elem` stack
+                  then makeColor 0.827 0.62 0.365 1.0
+                  else makeColor 0.365 0.827 0.62 1.0
               else makeColor 0.204 0.541 0.655 1.0)
           cellPicture
 
